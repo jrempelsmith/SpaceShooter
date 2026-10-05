@@ -74,6 +74,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Asteroid
   speed: 4
+  health: 2
 --- !u!54 &5957209985288954910
 Rigidbody:
   m_ObjectHideFlags: 0

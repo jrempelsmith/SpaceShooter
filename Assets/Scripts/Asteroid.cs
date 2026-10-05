@@ -2,6 +2,15 @@ using UnityEngine;
 
 public class Asteroid : Enemy
 {
+    public override void OnShot()
+    {
+        health -= 1;
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public override void RunSetup(Player player, float maxSpawnPositionX, float maxSpawnPositionZ)
     {
         base.RunSetup(player, maxSpawnPositionX, maxSpawnPositionZ);

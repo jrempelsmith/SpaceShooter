@@ -2,6 +2,24 @@ using UnityEngine;
 
 public class Alien : Enemy
 {
+    private Asteroid shieldAsteroid;
+
+    public override void OnShot()
+    {
+        if (shieldAsteroid == null)
+        {
+            health -= 1;
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
+            shieldAsteroid.OnShot();
+        }
+    }
+
     public override void RunSetup(Player player, float maxSpawnPositionX, float maxSpawnPositionZ)
     {
         base.RunSetup(player, maxSpawnPositionX, maxSpawnPositionZ);

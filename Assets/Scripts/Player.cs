@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Projectile projectilePrefab;
     [SerializeField] private Money money;
     [SerializeField] private float speed;
+    [SerializeField] private int health;
 
     private void Awake()
     {
@@ -23,6 +24,25 @@ public class Player : MonoBehaviour
         }
         
         HandleKeyboardInput();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent(out Enemy enemy))
+        {
+            health -= 1;
+            Destroy(enemy.gameObject);
+
+            if (health <= 0)
+            {
+                Debug.Log("Game Over!");
+            }
+        }
+        else if (other.TryGetComponent(out Coin coin))
+        {
+            money.AddMoney(coin.MoneyValue);
+            Destroy(coin.gameObject);
+        }
     }
 
     private void HandleMouseClick(Vector3 mouseWorldPosition)

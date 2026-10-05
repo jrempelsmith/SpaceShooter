@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public abstract class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour, IShootable
 {
     protected Player player;
 
     [SerializeField] protected float speed;
+    [SerializeField] protected int health;
     protected Vector3 targetPoint;
+
+    public abstract void OnShot();
 
     protected virtual void Update()
     {

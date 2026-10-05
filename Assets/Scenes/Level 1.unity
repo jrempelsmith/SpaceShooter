@@ -1374,6 +1374,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 5568050028274051567, guid: 013eacbdc03e4b44dbf8059148453d52, type: 3}
   money: {fileID: 581542854}
   speed: 3.5
+  health: 0
 --- !u!1 &1425457383
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,7 +1676,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Money: '
+  m_text: 'Ammo:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

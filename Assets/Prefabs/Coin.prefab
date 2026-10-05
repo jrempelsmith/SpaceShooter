@@ -71,6 +71,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Coin
   speed: 5
+  health: 2
+  moneyValue: 10
 --- !u!114 &1027855775989229230
 MonoBehaviour:
   m_ObjectHideFlags: 0

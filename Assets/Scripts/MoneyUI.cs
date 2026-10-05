@@ -15,6 +15,6 @@ public class MoneyUI : MonoBehaviour
 
     private void Money_OnMoneyChanged(object sender, System.EventArgs e)
     {
-        moneyText.text = "Current Money: " + money.CurrentMoney.ToString();
+        moneyText.text = "Ammo: " + money.CurrentMoney.ToString();
     }
 }

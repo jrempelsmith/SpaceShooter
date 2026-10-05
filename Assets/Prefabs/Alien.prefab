@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Alien
   speed: 3
+  health: 3
 --- !u!136 &7976826737897512500
 CapsuleCollider:
   m_ObjectHideFlags: 0

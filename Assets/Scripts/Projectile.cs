@@ -21,5 +21,11 @@ public class Projectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        if (other.TryGetComponent(out IShootable shootable))
+        {
+            shootable.OnShot();
+            Destroy(gameObject);
+        }
     }
 }

@@ -18,6 +18,12 @@ public class Money : MonoBehaviour
         OnMoneyChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    public void AddMoney(int amount)
+    {
+        currentMoney += amount;
+        OnMoneyChanged?.Invoke(this, EventArgs.Empty);
+    }
+
     public void SubtractMoney(int amount)
     {
         if (currentMoney - amount < 0)
