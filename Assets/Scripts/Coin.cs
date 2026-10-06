@@ -3,7 +3,6 @@ using UnityEngine;
 public class Coin : MonoBehaviour, IShootable
 {
     [SerializeField] private float speed;
-    [SerializeField] private int health;
     [SerializeField] private int moneyValue;
 
     private Vector3 targetPoint;
@@ -12,12 +11,7 @@ public class Coin : MonoBehaviour, IShootable
 
     public void OnShot()
     {
-        health -= 1;
-        moneyValue /= 2;
-        if (health <= 0)
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
 
     public void RunSetup(float maxSpawnPositionX, float maxSpawnPositionZ)
