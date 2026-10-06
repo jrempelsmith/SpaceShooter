@@ -5,6 +5,7 @@ public class Asteroid : Enemy
     public override void OnShot()
     {
         health -= 1;
+        InvokeOnLostHealth();
         if (health <= 0)
         {
             Destroy(gameObject);

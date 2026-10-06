@@ -2,6 +2,8 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour, IShootable
 {
+    public event System.EventHandler OnLostHealth;
+
     protected Player player;
 
     [SerializeField] protected float speed;
@@ -9,6 +11,11 @@ public abstract class Enemy : MonoBehaviour, IShootable
     protected Vector3 targetPoint;
 
     public abstract void OnShot();
+
+    public void InvokeOnLostHealth()
+    {
+        OnLostHealth?.Invoke(this, System.EventArgs.Empty);
+    }
 
     protected virtual void Update()
     {

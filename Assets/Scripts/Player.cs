@@ -1,17 +1,15 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    public event EventHandler OnLostHealth;
+
     [SerializeField] private Projectile projectilePrefab;
     [SerializeField] private Money money;
     [SerializeField] private float speed;
     [SerializeField] private int health;
-
-    private void Awake()
-    {
-        
-    }
 
     private void Update()
     {
@@ -31,6 +29,7 @@ public class Player : MonoBehaviour
         if (other.TryGetComponent(out Enemy enemy))
         {
             health -= 1;
+            OnLostHealth?.Invoke(this, EventArgs.Empty);
             Destroy(enemy.gameObject);
 
             if (health <= 0)

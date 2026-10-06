@@ -1236,6 +1236,8 @@ MonoBehaviour:
   spawnPercentageAsteroid: 0.9
   maxSpawnPositionX: 16
   maxSpawnPositionZ: 8
+  spawnCooldownMin: 0.5
+  spawnCooldownMax: 2
 --- !u!1 &1717764327
 GameObject:
   m_ObjectHideFlags: 0
@@ -1587,6 +1589,54 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2007108207149680435, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007108207149680435, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007108207149680435, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007108207149680435, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2916216470349329647, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2916216470349329647, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2916216470349329647, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2916216470349329647, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4759904702688870832, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4759904702688870832, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4759904702688870832, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4759904702688870832, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4949422814982495744, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
       propertyPath: money
       value: 
@@ -1635,9 +1685,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7260686322155529616, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260686322155529616, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260686322155529616, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260686322155529616, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7781973871772004582, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593950128526816399, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593950128526816399, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593950128526816399, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593950128526816399, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

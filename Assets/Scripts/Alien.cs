@@ -9,6 +9,7 @@ public class Alien : Enemy
         if (shieldAsteroid == null)
         {
             health -= 1;
+            InvokeOnLostHealth();
             if (health <= 0)
             {
                 Destroy(gameObject);
@@ -16,6 +17,7 @@ public class Alien : Enemy
         }
         else
         {
+            // Show some visual on the line renderer
             shieldAsteroid.OnShot();
         }
     }
