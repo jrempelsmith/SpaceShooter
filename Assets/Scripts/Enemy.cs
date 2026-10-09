@@ -10,6 +10,8 @@ public abstract class Enemy : MonoBehaviour, IShootable
     [SerializeField] protected int health;
     protected Vector3 targetPoint;
 
+    public int Health => health;
+
     public abstract void OnShot();
 
     public void InvokeOnLostHealth()
@@ -23,14 +25,13 @@ public abstract class Enemy : MonoBehaviour, IShootable
         transform.Translate(direction * speed * Time.deltaTime, Space.World);
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Boundary>())
         {
             Destroy(gameObject);
         }
     }
-
 
 
     public virtual void RunSetup(Player player, float maxSpawnPositionX, float maxSpawnPositionZ)

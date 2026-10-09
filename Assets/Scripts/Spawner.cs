@@ -14,8 +14,8 @@ public class Spawner : MonoBehaviour
     [SerializeField] [Range(0, 1)] private float spawnPercentageAsteroid;
     [SerializeField] private float maxSpawnPositionX;
     [SerializeField] private float maxSpawnPositionZ;
-    [SerializeField] private float spawnCooldownMin = 0.5f;
-    [SerializeField] private float spawnCooldownMax = 2f;
+    [SerializeField] private float spawnCooldownMin;
+    [SerializeField] private float spawnCooldownMax;
 
     private float timer;
     private float spawnCooldown;

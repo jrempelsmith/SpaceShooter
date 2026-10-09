@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private int health;
 
+    public int Health => health;
+
     private void Update()
     {
         Vector3? mouseWorldPosition = GetMouseWorldPosition();

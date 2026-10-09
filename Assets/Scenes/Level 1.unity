@@ -1233,7 +1233,7 @@ MonoBehaviour:
   asteroidPrefab: {fileID: 4484560760917773572, guid: 4292e49e77798e747afc1e27f64269d9, type: 3}
   alienPrefab: {fileID: 5895234470279492846, guid: fab613758e80a944681fb6c6090dcc65, type: 3}
   coinPrefab: {fileID: 2581437460648202079, guid: 614a16ed7c46e094a94248596989962c, type: 3}
-  spawnPercentageAsteroid: 0.9
+  spawnPercentageAsteroid: 0.75
   maxSpawnPositionX: 16
   maxSpawnPositionZ: 8
   spawnCooldownMin: 0.5
