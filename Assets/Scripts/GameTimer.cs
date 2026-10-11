@@ -1,16 +1,20 @@
+using System;
 using UnityEngine;
 
 public class GameTimer : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public event EventHandler OnTimerFinished;
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField] private float remainingTime;
+
+    public float RemainingTime => remainingTime;
+
+    private void Update()
     {
-        
+        remainingTime -= Time.deltaTime;
+        if (remainingTime <= 0)
+        {
+            OnTimerFinished?.Invoke(this, EventArgs.Empty);
+        }
     }
 }
