@@ -16,21 +16,21 @@ public class GameTimerUI : MonoBehaviour
         if (gameTimer.RemainingTime <= 0)
         {
             timerText.color = Color.green;
-            timerText.text = "Time Remaining: 0.0";
+            timerText.text = "Time until rescue: 0.0";
         }
         else if (gameTimer.RemainingTime < 10)
         {
             timerText.color = Color.green;
-            timerText.text = "Time Remaining: " + gameTimer.RemainingTime.ToString("F1");
+            timerText.text = "Time until rescue: " + gameTimer.RemainingTime.ToString("F1");
         }
         else if (gameTimer.RemainingTime < 20)
         {
             timerText.color = Color.yellow;
-            timerText.text = "Time Remaining: " + gameTimer.RemainingTime.ToString("F0");
+            timerText.text = "Time until rescue: " + gameTimer.RemainingTime.ToString("F0");
         }
         else
         {
-            timerText.text = "Time Remaining: " + gameTimer.RemainingTime.ToString("F0");
+            timerText.text = "Time until rescue: " + gameTimer.RemainingTime.ToString("F0");
         }
         
     }

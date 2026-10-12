@@ -5,9 +5,10 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     public event EventHandler OnLostHealth;
+    public event EventHandler OnZeroHealth;
 
     [SerializeField] private Projectile projectilePrefab;
-    [SerializeField] private Money money;
+    [SerializeField] private Ammo ammo;
     [SerializeField] private float speed;
     [SerializeField] private int health;
 
@@ -36,12 +37,12 @@ public class Player : MonoBehaviour
 
             if (health <= 0)
             {
-                Debug.Log("Game Over!");
+                OnZeroHealth?.Invoke(this, EventArgs.Empty);
             }
         }
         else if (other.TryGetComponent(out Coin coin))
         {
-            money.AddMoney(coin.MoneyValue);
+            ammo.AddAmmo(coin.AmmoValue);
             Destroy(coin.gameObject);
         }
     }
@@ -50,10 +51,10 @@ public class Player : MonoBehaviour
     {
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            if (money.CurrentMoney > 0)
+            if (ammo.CurrentAmmo > 0)
             {
                 const int projectileCost = 1;
-                money.SubtractMoney(projectileCost);
+                ammo.SubtractAmmo(projectileCost);
                 Projectile newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
                 newProjectile.AimAt(mouseWorldPosition);
             }

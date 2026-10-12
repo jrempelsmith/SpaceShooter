@@ -17,6 +17,14 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float spawnCooldownMin;
     [SerializeField] private float spawnCooldownMax;
 
+    [Header("Alien Settings")]
+    [SerializeField] private int alienSpawnHealth;
+    [SerializeField] private float alienSpawnSpeed;
+
+    [Header("Asteroid Settings")]
+    [SerializeField] private int asteroidSpawnHealth;
+    [SerializeField] private float asteroidSpawnSpeed;
+
     private float timer;
     private float spawnCooldown;
     private bool coolingDown;

@@ -3,11 +3,11 @@ using UnityEngine;
 public class Coin : MonoBehaviour, IShootable
 {
     [SerializeField] private float speed;
-    [SerializeField] private int moneyValue;
+    [SerializeField] private int ammoValue;
 
     private Vector3 targetPoint;
 
-    public int MoneyValue => moneyValue;
+    public int AmmoValue => ammoValue;
 
     public void OnShot()
     {
