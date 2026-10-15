@@ -34,14 +34,15 @@ public abstract class Enemy : MonoBehaviour, IShootable
     }
 
 
-    public virtual void RunSetup(Player player, float maxSpawnPositionX, float maxSpawnPositionZ)
+    public virtual void RunSetup(Player player, float maxSpawnPositionX, float maxSpawnPositionZ, int health, float speed)
     {
         if (player == null)
         {
             Debug.LogError("Player reference is null in Enemy.SetPlayer");
         }
         this.player = player;
-
+        this.health = health;
+        this.speed = speed;
 
         // spawn at a random position along the edges
         Vector3 spawnPosition;

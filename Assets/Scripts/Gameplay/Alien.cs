@@ -56,9 +56,9 @@ public class Alien : Enemy
         }
     }
 
-    public override void RunSetup(Player player, float maxSpawnPositionX, float maxSpawnPositionZ)
+    public override void RunSetup(Player player, float maxSpawnPositionX, float maxSpawnPositionZ, int health, float speed)
     {
-        base.RunSetup(player, maxSpawnPositionX, maxSpawnPositionZ);
+        base.RunSetup(player, maxSpawnPositionX, maxSpawnPositionZ, health, speed);
 
         Vector3 centralTargetPoint = player.transform.position;
         targetPoint = transform.position + (centralTargetPoint - transform.position) * 10f;

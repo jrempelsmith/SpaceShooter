@@ -12,9 +12,9 @@ public class Asteroid : Enemy
         }
     }
 
-    public override void RunSetup(Player player, float maxSpawnPositionX, float maxSpawnPositionZ)
+    public override void RunSetup(Player player, float maxSpawnPositionX, float maxSpawnPositionZ, int health, float speed)
     {
-        base.RunSetup(player, maxSpawnPositionX, maxSpawnPositionZ);
+        base.RunSetup(player, maxSpawnPositionX, maxSpawnPositionZ, health, speed);
 
         const float centralRegionRange = 4f;
 

@@ -10,12 +10,22 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Alien alienPrefab;
     [SerializeField] private Coin coinPrefab;
 
-    [Header("Settings")]
-    [SerializeField] [Range(0, 1)] private float spawnPercentageAsteroid;
+    [Header("Spawn Rate")]
+    [SerializeField] [Range(0, 1)] [Tooltip("Chance that an asteroid will spawn instead of an alien")]
+    private float spawnPercentageAsteroid;
+
+    [SerializeField] [Range(0, 1)] [Tooltip("Chance that a coin will spawn with an enemy")] 
+    private float coinSpawnChance;
+
+    [SerializeField] [Tooltip("Minimum wait time between enemy spawns")] 
+    private float spawnCooldownMin;
+
+    [SerializeField] [Tooltip("Maximum wait time between enemy spawns")] 
+    private float spawnCooldownMax;
+
+    [Header("Spawn Position")]
     [SerializeField] private float maxSpawnPositionX;
     [SerializeField] private float maxSpawnPositionZ;
-    [SerializeField] private float spawnCooldownMin;
-    [SerializeField] private float spawnCooldownMax;
 
     [Header("Alien Settings")]
     [SerializeField] private int alienSpawnHealth;
@@ -45,7 +55,6 @@ public class Spawner : MonoBehaviour
             coolingDown = true;
             spawnCooldown = Random.Range(spawnCooldownMin, spawnCooldownMax);
 
-            const float coinSpawnChance = 0.5f;
             if (Random.value < coinSpawnChance)
             {
                 Coin newCoin = Instantiate(coinPrefab);
@@ -69,12 +78,12 @@ public class Spawner : MonoBehaviour
         if (Random.value < spawnPercentageAsteroid)
         {
             newEnemy = Instantiate(asteroidPrefab);
+            newEnemy.RunSetup(player, maxSpawnPositionX, maxSpawnPositionZ, asteroidSpawnHealth, asteroidSpawnSpeed);
         }
         else
         {
             newEnemy = Instantiate(alienPrefab);
+            newEnemy.RunSetup(player, maxSpawnPositionX, maxSpawnPositionZ, alienSpawnHealth, alienSpawnSpeed);
         }
-
-        newEnemy.RunSetup(player, maxSpawnPositionX, maxSpawnPositionZ);
     }
 }
