@@ -18,7 +18,10 @@ public class Asteroid : Enemy
 
         const float centralRegionRange = 4f;
 
-        Vector3 centralTargetPoint = new Vector3(Random.Range(-centralRegionRange, centralRegionRange), 0, Random.Range(-centralRegionRange, centralRegionRange));
-        targetPoint = transform.position + (centralTargetPoint - transform.position) * 10f;
+        float randomX = Random.Range(-centralRegionRange, centralRegionRange);
+        float randomZ = Random.Range(-centralRegionRange, centralRegionRange);
+
+        Vector3 centralTargetPoint = new Vector3(randomX, 0, randomZ);
+        targetPoint = transform.position + (centralTargetPoint - transform.position) * 10f; // large multiplier to ensure it moves all the way through the level
     }
 }
