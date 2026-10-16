@@ -272,7 +272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   projectilePrefab: {fileID: 5568050028274051567, guid: 013eacbdc03e4b44dbf8059148453d52, type: 3}
-  money: {fileID: 0}
+  ammo: {fileID: 0}
   speed: 3.5
   health: 5
 --- !u!65 &5634620503230490654
@@ -515,7 +515,7 @@ GameObject:
   - component: {fileID: 5799125134391703208}
   - component: {fileID: 4764351961012536093}
   m_Layer: 5
-  m_Name: Image_template
+  m_Name: Dot_template
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -561,7 +561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.7789434, b: 0.5235849, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

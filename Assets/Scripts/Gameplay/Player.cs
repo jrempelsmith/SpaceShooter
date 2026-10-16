@@ -31,19 +31,24 @@ public class Player : MonoBehaviour
     {
         if (other.TryGetComponent(out Enemy enemy))
         {
-            health -= 1;
-            OnLostHealth?.Invoke(this, EventArgs.Empty);
-            Destroy(enemy.gameObject);
-
-            if (health <= 0)
-            {
-                OnZeroHealth?.Invoke(this, EventArgs.Empty);
-            }
+            TakeDamage();
         }
         else if (other.TryGetComponent(out Coin coin))
         {
             ammo.AddAmmo(coin.AmmoValue);
             Destroy(coin.gameObject);
+        }
+    }
+    
+    public void TakeDamage()
+    {
+        health -= 1;
+
+        OnLostHealth?.Invoke(this, EventArgs.Empty);
+
+        if (health <= 0)
+        {
+            OnZeroHealth?.Invoke(this, EventArgs.Empty);
         }
     }
 
