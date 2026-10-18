@@ -11,7 +11,11 @@ public class Alien : Enemy
 
     private const float connectionLineWidth = 0.3f;
     private List<AsteroidConnection> connectedAsteroids;
+
     [SerializeField] private Material connectionLineMaterial;
+
+    private Comet connectedComet;
+    [SerializeField] private LineRenderer cometConnectionLineRenderer;
 
     private void Awake()
     {
@@ -22,7 +26,7 @@ public class Alien : Enemy
     {
         base.Update();
 
-        // loop backwards through the list so we can remove items while iterating
+        // loop backwards through the list of connectedAsteroids so we can remove Asteroids (if needed) while iterating
         for (int i = connectedAsteroids.Count - 1; i >= 0; i--)
         {
             AsteroidConnection cnxn = connectedAsteroids[i];
@@ -51,6 +55,12 @@ public class Alien : Enemy
                     }
                 }
             }
+        }
+
+        if (connectedComet != null)
+        {
+            cometConnectionLineRenderer.SetPosition(0, transform.position);
+            cometConnectionLineRenderer.SetPosition(1, connectedComet.transform.position);
         }
     }
 
@@ -89,6 +99,12 @@ public class Alien : Enemy
                 asteroid = asteroid,
                 lineRenderer = newLineRenderer
             });
+        }
+
+        else if (connectedComet == null && other.TryGetComponent(out Comet comet))
+        {
+            connectedComet = comet;
+            cometConnectionLineRenderer.enabled = true;
         }
     }
 

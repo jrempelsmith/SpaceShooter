@@ -5,44 +5,70 @@ public class Spawner : MonoBehaviour
     [Header("Player")]
     [SerializeField] private Player player;
 
+
+
     [Header("Prefabs")]
     [SerializeField] private Asteroid asteroidPrefab;
     [SerializeField] private Alien alienPrefab;
+    [SerializeField] private Comet cometPrefab;
     [SerializeField] private Coin coinPrefab;
 
-    [Header("Spawn Rate")]
-    [SerializeField] [Range(0, 1)] [Tooltip("Chance that an asteroid will spawn instead of an alien")]
-    private float spawnPercentageAsteroid;
 
-    [SerializeField] [Range(0, 1)] [Tooltip("Chance that a coin will spawn with an enemy")] 
-    private float coinSpawnChance;
 
-    [SerializeField] [Tooltip("Minimum wait time between enemy spawns")] 
-    private float spawnCooldownMin;
+    [Header("Enemy Spawn Rate")]
 
-    [SerializeField] [Tooltip("Maximum wait time between enemy spawns")] 
-    private float spawnCooldownMax;
+    [Tooltip("Chance that an asteroid will spawn instead of an alien")]
+    [SerializeField] [Range(0, 1)] private float spawnPercentageAsteroid;
 
-    [Header("Spawn Position")]
+    [Tooltip("Chance that a coin will spawn with an enemy")]
+    [SerializeField] [Range(0, 1)]  private float coinSpawnChance;
+
+    [Tooltip("Minimum wait time between enemy spawns")]
+    [SerializeField] private float spawnCooldownMin;
+
+    [Tooltip("Maximum wait time between enemy spawns")]
+    [SerializeField] private float spawnCooldownMax;
+
+
+
+    [Header("Enemy Spawn Position")]
     [SerializeField] private float maxSpawnPositionX;
     [SerializeField] private float maxSpawnPositionZ;
+
+
 
     [Header("Alien Settings")]
     [SerializeField] private int alienSpawnHealth;
     [SerializeField] private float alienSpawnSpeed;
 
+
+
     [Header("Asteroid Settings")]
     [SerializeField] private int asteroidSpawnHealth;
     [SerializeField] private float asteroidSpawnSpeed;
+
+
+
+    [Header("Comet Settings")]
+    [SerializeField] private float minCometXRadius;
+    [SerializeField] private float maxCometXRadius;
+    [SerializeField] private float minCometZRadius;
+    [SerializeField] private float maxCometZRadius;
+    [SerializeField] [Tooltip("Degrees per second")] private float orbitalSpeed;
+    [SerializeField] [Tooltip("Number of seconds between comet spawns")] private float cometSpawnInterval;
+
 
     private float timer;
     private float spawnCooldown;
     private bool coolingDown;
 
+
     private void Awake()
     {
         timer = 0;
         coolingDown = false;
+
+        InvokeRepeating("SpawnComet", 1f, cometSpawnInterval);
     }
 
     private void Update()
@@ -85,5 +111,15 @@ public class Spawner : MonoBehaviour
             newEnemy = Instantiate(alienPrefab);
             newEnemy.RunSetup(player, maxSpawnPositionX, maxSpawnPositionZ, alienSpawnHealth, alienSpawnSpeed);
         }
+    }
+
+    private void SpawnComet()
+    {
+        Comet newComet = Instantiate(cometPrefab);
+
+        float horizontalRadius = Random.Range(minCometXRadius, maxCometXRadius);
+        float verticalRadius = Random.Range(minCometZRadius, maxCometZRadius);
+
+        newComet.RunSetup(orbitalSpeed, horizontalRadius, verticalRadius);
     }
 }

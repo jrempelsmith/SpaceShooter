@@ -540,51 +540,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 572164496}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &581542852
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 581542853}
-  - component: {fileID: 581542854}
-  m_Layer: 0
-  m_Name: Ammo
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &581542853
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 581542852}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &581542854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 581542852}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 329f1e4ec6e580d4f995f3d1eaf54ed7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Ammo
-  currentAmmo: 15
 --- !u!1 &587662389
 GameObject:
   m_ObjectHideFlags: 0
@@ -1796,17 +1751,24 @@ MonoBehaviour:
   player: {fileID: 1365222622}
   asteroidPrefab: {fileID: 4484560760917773572, guid: 4292e49e77798e747afc1e27f64269d9, type: 3}
   alienPrefab: {fileID: 5895234470279492846, guid: fab613758e80a944681fb6c6090dcc65, type: 3}
+  cometPrefab: {fileID: 8327815616458291844, guid: 3bd4b8f1128bd3743b00977d22192855, type: 3}
   coinPrefab: {fileID: 2581437460648202079, guid: 614a16ed7c46e094a94248596989962c, type: 3}
   spawnPercentageAsteroid: 0.5
   coinSpawnChance: 0.5
-  spawnCooldownMin: 0.2
-  spawnCooldownMax: 1
+  spawnCooldownMin: 0.5
+  spawnCooldownMax: 2
   maxSpawnPositionX: 16
   maxSpawnPositionZ: 8
   alienSpawnHealth: 3
   alienSpawnSpeed: 3
   asteroidSpawnHealth: 2
   asteroidSpawnSpeed: 3
+  minCometXRadius: 13
+  maxCometXRadius: 14
+  minCometZRadius: 7
+  maxCometZRadius: 8
+  orbitalSpeed: 30
+  cometSpawnInterval: 10
 --- !u!1 &1717764327
 GameObject:
   m_ObjectHideFlags: 0
@@ -2265,7 +2227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111918063532efa4eb77abfc2e7f120b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoneyUI
-  ammo: {fileID: 581542854}
+  ammo: {fileID: 1713506299833354900}
 --- !u!1 &1965054419
 GameObject:
   m_ObjectHideFlags: 0
@@ -2664,10 +2626,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4949422814982495744, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
-      propertyPath: ammo
-      value: 
-      objectReference: {fileID: 581542854}
-    - target: {fileID: 4949422814982495744, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
       propertyPath: money
       value: 
       objectReference: {fileID: 0}
@@ -2756,6 +2714,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+--- !u!114 &1713506299833354900 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8416600345288271582, guid: dbda5a841e2bffb4c882d50f50134c25, type: 3}
+  m_PrefabInstance: {fileID: 1713506299833354899}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 329f1e4ec6e580d4f995f3d1eaf54ed7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ammo
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2768,6 +2737,5 @@ SceneRoots:
   - {fileID: 1717764328}
   - {fileID: 587662393}
   - {fileID: 1294713041}
-  - {fileID: 581542853}
   - {fileID: 819552806}
   - {fileID: 1868116985}

@@ -20,16 +20,21 @@ public class Player : MonoBehaviour
         
         if (mouseWorldPosition != null)
         {
-            HandleMouseClick((Vector3)mouseWorldPosition);
+            HandleFiringInput((Vector3)mouseWorldPosition);
             transform.rotation = Quaternion.LookRotation(((Vector3)mouseWorldPosition - transform.position).normalized, Vector3.up);
         }
         
-        HandleKeyboardInput();
+        HandleMovementInput();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out Enemy enemy))
+        {
+            TakeDamage();
+            Destroy(enemy.gameObject);
+        }
+        else if (other.TryGetComponent(out Comet comet))
         {
             TakeDamage();
         }
@@ -52,9 +57,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void HandleMouseClick(Vector3 mouseWorldPosition)
+    private void HandleFiringInput(Vector3 mouseWorldPosition)
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (Mouse.current.leftButton.wasPressedThisFrame || Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             if (ammo.CurrentAmmo > 0)
             {
@@ -66,7 +71,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void HandleKeyboardInput()
+    private void HandleMovementInput()
     {
         Vector2 movementInput = Vector2.zero;
         if (Keyboard.current.wKey.isPressed)

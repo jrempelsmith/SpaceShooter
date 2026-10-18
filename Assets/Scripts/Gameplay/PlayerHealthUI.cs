@@ -6,7 +6,7 @@ public class PlayerHealthUI : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private Image healthDotTemplate;
 
-    private void Awake()
+    private void Start()
     {
         player.OnLostHealth += Player_OnLostHealth;
 

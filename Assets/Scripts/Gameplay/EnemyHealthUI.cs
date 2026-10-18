@@ -6,7 +6,7 @@ public class EnemyHealthUI : MonoBehaviour
     [SerializeField] private Enemy enemy;
     [SerializeField] private Image healthDotTemplate;
 
-    private void Awake()
+    private void Start()
     {
         enemy.OnLostHealth += Enemy_OnLostHealth;
 
