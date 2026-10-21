@@ -9,6 +9,7 @@ public class PlayerHealthUI : MonoBehaviour
     private void Start()
     {
         player.OnLostHealth += Player_OnLostHealth;
+        player.OnHealthUpdated += Player_OnHealthUpdated; ;
 
         for (int i = 0; i < player.Health; i++)
         {
@@ -16,7 +17,26 @@ public class PlayerHealthUI : MonoBehaviour
             healthDot.gameObject.SetActive(true);
         }
 
-        Destroy(healthDotTemplate.gameObject); // Destroy the template after instantiating enough health dots
+        healthDotTemplate.gameObject.SetActive(false); // Deactivate the template after instantiating enough health dots
+    }
+
+    private void Player_OnHealthUpdated(object sender, System.EventArgs e)
+    {
+        // Clear out all children, except the template
+        foreach (Transform child in transform)
+        {
+            if (child != healthDotTemplate.transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        // Instantiate enough health dots for the correct health
+        for (int i = 0; i < player.Health; i++)
+        {
+            Image healthDot = Instantiate(healthDotTemplate, transform);
+            healthDot.gameObject.SetActive(true);
+        }
     }
 
     private void Player_OnLostHealth(object sender, System.EventArgs e)

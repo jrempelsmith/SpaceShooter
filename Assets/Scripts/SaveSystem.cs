@@ -4,55 +4,54 @@ using Newtonsoft.Json;
 
 public class SaveSystem : MonoBehaviour
 {
-    
-    void Start()
+    [Header("Object references")]
+    [SerializeField] private Player player;
+    [SerializeField] private GameTimer gameTimer;
+
+
+    [Header("File name")]
+    [SerializeField] private string saveFileName;
+    [SerializeField] private string saveGameFileExtension;
+
+    private string saveGameFilePath;
+
+    private void Awake()
     {
-        if (TryLoad())
-        {
-            Debug.Log("Load succeeded!");
-        }
-        else
-        {
-            Debug.Log("Load failed.");
-        }
-
-        
-
-        //string contents = "My fav story is ...";
-        //File.WriteAllText("C:\\Users\\jrempelsmith\\Documents\\Save.txt", contents);
+        saveGameFilePath = Path.Combine(Application.persistentDataPath, saveFileName + "." + saveGameFileExtension);
     }
 
-    public bool TryLoad()
+    public void SaveGame()
     {
-        //string fileContents;
+        SaveGameContainer saveGameContainer = new SaveGameContainer
+        {
+            playerSaveData = player.GetSaveData(),
+            gameTimerSaveData = gameTimer.GetSaveData()
+        };
 
-        //try
-        //{
-        //    fileContents = File.ReadAllText("C:\\Users\\jrempelsmith\\Documents\\GameSave.txt");
-        //}
-        //catch
-        //{
-        //    Debug.Log("File not found!");
-        //    return false;
-        //}
+        // 2. Serialize container as string
+        string saveGameContainerString = JsonConvert.SerializeObject(saveGameContainer);
 
-        //Debug.Log(fileContents);
-        //return true;
-
+        // 3. Write string to text file
+        File.WriteAllText(saveGameFilePath, saveGameContainerString);
+    }
+    
+    public void TryLoadGame()
+    {
         string fileContents;
 
-        string path = Path.Combine(Application.persistentDataPath, "GameSave.txt");
-        Debug.Log(path);
-
-
-        if (!File.Exists(path))
+        if (!File.Exists(saveGameFilePath))
         {
-            return false;
+            return;
         }
 
-        fileContents = File.ReadAllText(path);
-        
-        Debug.Log(fileContents);
-        return true;
+        fileContents = File.ReadAllText(saveGameFilePath);
+
+        SaveGameContainer saveGameContainer = JsonConvert.DeserializeObject<SaveGameContainer>(fileContents);
+
+        PlayerSaveData playerSaveData = saveGameContainer.playerSaveData;
+        GameTimerSaveData gameTimerSaveData = saveGameContainer.gameTimerSaveData;
+
+        player.LoadFromSaveData(playerSaveData);
+        gameTimer.LoadFromSaveData(gameTimerSaveData);
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    public event EventHandler OnHealthUpdated;
     public event EventHandler OnLostHealth;
     public event EventHandler OnZeroHealth;
 
@@ -17,7 +18,16 @@ public class Player : MonoBehaviour
     [SerializeField] private float maxXPosition;
     [SerializeField] private float maxZPosition;
 
-    public int Health => health;
+    public int Health
+    {
+        get => health;
+        private set
+        {
+            health = value;
+            OnHealthUpdated?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
 
     private void Update()
     {
@@ -113,5 +123,33 @@ public class Player : MonoBehaviour
         {
             return null; // Return null if the ray does not intersect the plane
         }
+    }
+
+    public PlayerSaveData GetSaveData()
+    {
+        Vector3Data playerPosition = new Vector3Data
+        {
+            x = transform.position.x,
+            y = transform.position.y,
+            z = transform.position.z
+        };
+
+        PlayerSaveData playerSaveData = new PlayerSaveData
+        {
+            position = playerPosition,
+            health = Health,
+            ammo = ammo.CurrentAmmo
+        };
+
+        return playerSaveData;
+    }
+
+    public void LoadFromSaveData(PlayerSaveData saveData)
+    {
+        Vector3 playerPosition = new Vector3(saveData.position.x, saveData.position.y, saveData.position.z);
+
+        transform.position = playerPosition;
+        Health = saveData.health;
+        ammo.CurrentAmmo = saveData.ammo;
     }
 }

@@ -10,7 +10,11 @@ public class Ammo : MonoBehaviour
     public int CurrentAmmo
     {
         get => currentAmmo;
-        private set => currentAmmo = value;
+        set
+        {
+            currentAmmo = value;
+            OnAmmoChanged?.Invoke(this, new EventArgs());
+        }
     }
 
     private void Start()

@@ -8,7 +8,11 @@ public class GameTimer : MonoBehaviour
 
     [SerializeField] private float remainingTime;
 
-    public float RemainingTime => remainingTime;
+    public float RemainingTime
+    {
+        get => remainingTime;
+        set => remainingTime = value;
+    }
 
     private void Awake()
     {
@@ -24,4 +28,18 @@ public class GameTimer : MonoBehaviour
             timerFinishedEventFired = true;
         }
     }
+
+    public GameTimerSaveData GetSaveData()
+    {
+        return new GameTimerSaveData
+        {
+            remainingTime = remainingTime
+        };
+    }
+
+    public void LoadFromSaveData(GameTimerSaveData saveData)
+    {
+        remainingTime = saveData.remainingTime;
+    }
 }
+
