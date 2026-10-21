@@ -7,10 +7,15 @@ public class Player : MonoBehaviour
     public event EventHandler OnLostHealth;
     public event EventHandler OnZeroHealth;
 
+    [Header("References")]
     [SerializeField] private Projectile projectilePrefab;
     [SerializeField] private Ammo ammo;
+
+    [Header("Settings")]
     [SerializeField] private float speed;
     [SerializeField] private int health;
+    [SerializeField] private float maxXPosition;
+    [SerializeField] private float maxZPosition;
 
     public int Health => health;
 
@@ -74,21 +79,21 @@ public class Player : MonoBehaviour
     private void HandleMovementInput()
     {
         Vector2 movementInput = Vector2.zero;
-        if (Keyboard.current.wKey.isPressed)
+        if (Keyboard.current.wKey.isPressed && transform.position.z < maxZPosition)
         {
-            movementInput.y += 1;
+            movementInput.y = 1;
         }
-        if (Keyboard.current.sKey.isPressed)
+        if (Keyboard.current.sKey.isPressed && transform.position.z > -maxZPosition)
         {
-            movementInput.y -= 1;
+            movementInput.y = -1;
         }
-        if (Keyboard.current.aKey.isPressed)
+        if (Keyboard.current.aKey.isPressed && transform.position.x > -maxXPosition)
         {
-            movementInput.x -= 1;
+            movementInput.x = -1;
         }
-        if (Keyboard.current.dKey.isPressed)
+        if (Keyboard.current.dKey.isPressed && transform.position.x < maxXPosition)
         {
-            movementInput.x += 1;
+            movementInput.x = 1;
         }
 
         Vector3 movementDirection = new Vector3(movementInput.x, 0, movementInput.y).normalized;

@@ -321,6 +321,8 @@ MonoBehaviour:
   ammo: {fileID: 8416600345288271582}
   speed: 3.5
   health: 5
+  maxXPosition: 15.5
+  maxZPosition: 7.5
 --- !u!65 &5634620503230490654
 BoxCollider:
   m_ObjectHideFlags: 0

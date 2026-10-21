@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,8 @@ public class Alien : Enemy
 
     private Comet connectedComet;
     [SerializeField] private LineRenderer cometConnectionLineRenderer;
+    [SerializeField] private GameObject shieldIcon;
+    private const float shieldVisibleTime = 1f;
 
     private void Awake()
     {
@@ -66,11 +69,18 @@ public class Alien : Enemy
 
     public override void OnShot()
     {
-        health -= 1;
-        InvokeOnLostHealth();
-        if (health <= 0)
+        if (connectedComet == null)
         {
-            Destroy(gameObject);
+            health -= 1;
+            InvokeOnLostHealth();
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
+            StartCoroutine(ShowShield());
         }
     }
 
@@ -116,5 +126,14 @@ public class Alien : Enemy
         targetPoint = transform.position + (centralTargetPoint - transform.position) * 10f; // large multiplier to ensure it moves all the way through the level
 
         transform.rotation = Quaternion.LookRotation(targetPoint - transform.position);
+
+        shieldIcon.transform.rotation = Quaternion.Euler(90, 0, 0); // upright
+    }
+
+    private IEnumerator ShowShield()
+    {
+        shieldIcon.SetActive(true);
+        yield return new WaitForSeconds(shieldVisibleTime);
+        shieldIcon.SetActive(false);
     }
 }
