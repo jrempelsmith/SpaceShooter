@@ -2,6 +2,7 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour, IShootable
 {
+    public event System.EventHandler OnHealthUpdated;
     public event System.EventHandler OnLostHealth;
 
     protected Player player;
@@ -10,7 +11,15 @@ public abstract class Enemy : MonoBehaviour, IShootable
     [SerializeField] protected int health;
     protected Vector3 targetPoint;
 
-    public int Health => health;
+    public int Health 
+    {
+        get => health;
+        protected set
+        {
+            health = value;
+            OnHealthUpdated?.Invoke(this, System.EventArgs.Empty);
+        }
+    }
 
     public abstract void OnShot();
 

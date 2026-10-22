@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Overlays;
 using UnityEngine;
 
 public class Alien : Enemy
@@ -135,5 +136,44 @@ public class Alien : Enemy
         shieldIcon.SetActive(true);
         yield return new WaitForSeconds(shieldVisibleTime);
         shieldIcon.SetActive(false);
+    }
+
+    public AlienSaveData GetSaveData()
+    {
+        Vector3Data alienPosition = new Vector3Data
+        {
+            x = transform.position.x,
+            y = transform.position.y,
+            z = transform.position.z
+        };
+
+        Vector3Data alienTargetPoint = new Vector3Data
+        {
+            x = targetPoint.x,
+            y = targetPoint.y,
+            z = targetPoint.z
+        };
+
+        AlienSaveData alienSaveData = new AlienSaveData
+        {
+            position = alienPosition,
+            targetPoint = alienTargetPoint,
+            health = Health
+        };
+
+        return alienSaveData;
+    }
+
+    public void LoadFromSaveData(AlienSaveData saveData, Player player)
+    {
+        Vector3 alienPosition = new Vector3(saveData.position.x, saveData.position.y, saveData.position.z);
+        Vector3 alienTargetPoint = new Vector3(saveData.targetPoint.x, saveData.targetPoint.y, saveData.targetPoint.z);
+
+        transform.position = alienPosition;
+        targetPoint = alienTargetPoint;
+        Health = saveData.health;
+        this.player = player;
+
+        transform.rotation = Quaternion.LookRotation(targetPoint - transform.position);
     }
 }
