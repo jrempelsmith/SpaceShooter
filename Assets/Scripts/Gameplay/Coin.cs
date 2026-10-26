@@ -58,4 +58,39 @@ public class Coin : MonoBehaviour, IShootable
             Destroy(gameObject);
         }
     }
+
+    public CoinSaveData GetSaveData()
+    {
+        Vector3Data coinPosition = new Vector3Data
+        {
+            x = transform.position.x,
+            y = transform.position.y,
+            z = transform.position.z
+        };
+
+        Vector3Data coinTargetPoint = new Vector3Data
+        {
+            x = targetPoint.x,
+            y = targetPoint.y,
+            z = targetPoint.z
+        };
+
+
+        CoinSaveData coinSaveData = new CoinSaveData
+        {
+            position = coinPosition,
+            targetPoint = coinTargetPoint
+        };
+
+        return coinSaveData;
+    }
+
+    public void LoadFromSaveData(CoinSaveData saveData)
+    {
+        Vector3 coinPosition = new Vector3(saveData.position.x, saveData.position.y, saveData.position.z);
+        Vector3 coinTargetPoint = new Vector3(saveData.targetPoint.x, saveData.targetPoint.y, saveData.targetPoint.z);
+
+        transform.position = coinPosition;
+        targetPoint = coinTargetPoint;
+    }
 }

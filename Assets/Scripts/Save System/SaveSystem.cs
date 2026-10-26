@@ -8,6 +8,9 @@ public class SaveSystem : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private GameTimer gameTimer;
     [SerializeField] private Alien alienPrefab;
+    [SerializeField] private Asteroid asteroidPrefab;
+    [SerializeField] private Comet cometPrefab;
+    [SerializeField] private Coin coinPrefab;
 
 
     [Header("File name")]
@@ -27,7 +30,10 @@ public class SaveSystem : MonoBehaviour
         {
             playerSaveData = player.GetSaveData(),
             gameTimerSaveData = gameTimer.GetSaveData(),
-            alienSaveDataArray = GetAlienSaveDataArray()
+            alienSaveDataArray = GetAlienSaveDataArray(),
+            asteroidSaveDataArray = GetAsteroidSaveDataArray(),
+            cometSaveDataArray = GetCometSaveDataArray(),
+            coinSaveDataArray = GetCoinSaveDataArray()
         };
 
         // 2. Serialize container as string
@@ -56,6 +62,9 @@ public class SaveSystem : MonoBehaviour
         player.LoadFromSaveData(playerSaveData);
         gameTimer.LoadFromSaveData(gameTimerSaveData);
         LoadFromAlienSaveDataArray(saveGameContainer.alienSaveDataArray);
+        LoadFromAsteroidSaveDataArray(saveGameContainer.asteroidSaveDataArray);
+        LoadFromCometSaveDataArray(saveGameContainer.cometSaveDataArray);
+        LoadFromCoinSaveDataArray(saveGameContainer.coinSaveDataArray);
     }
 
     private AlienSaveData[] GetAlienSaveDataArray()
@@ -73,6 +82,57 @@ public class SaveSystem : MonoBehaviour
         }
 
         return alienSaveDataArray;
+    }
+
+    private AsteroidSaveData[] GetAsteroidSaveDataArray()
+    {
+        // Get all Asteroids
+        Asteroid[] asteroidsCurrentlyInScene = FindObjectsByType<Asteroid>(FindObjectsInactive.Include);
+
+        // Create an array of the same length for Asteroid Save Data
+        AsteroidSaveData[] asteroidSaveDataArray = new AsteroidSaveData[asteroidsCurrentlyInScene.Length];
+
+        // Populate the array with Asteroid save data
+        for (int i = 0; i < asteroidsCurrentlyInScene.Length; i++)
+        {
+            asteroidSaveDataArray[i] = asteroidsCurrentlyInScene[i].GetSaveData();
+        }
+
+        return asteroidSaveDataArray;
+    }
+
+    private CometSaveData[] GetCometSaveDataArray()
+    {
+        // Get all Comets
+        Comet[] cometsCurrentlyInScene = FindObjectsByType<Comet>(FindObjectsInactive.Include);
+
+        // Create an array of the same length for Comet Save Data
+        CometSaveData[] cometSaveDataArray = new CometSaveData[cometsCurrentlyInScene.Length];
+
+        // Populate the array with Comet save data
+        for (int i = 0; i < cometsCurrentlyInScene.Length; i++)
+        {
+            cometSaveDataArray[i] = cometsCurrentlyInScene[i].GetSaveData();
+        }
+
+        return cometSaveDataArray;
+    }
+
+    private CoinSaveData[] GetCoinSaveDataArray()
+    {
+        // Get all Coins
+        Coin[] coinsCurrentlyInScene = FindObjectsByType<Coin>(FindObjectsInactive.Include);
+
+        // Create an array of the same length for Coin Save Data
+        CoinSaveData[] coinSaveDataArray = new CoinSaveData[coinsCurrentlyInScene.Length];
+
+        // Populate the array with Coin save data
+        for (int i = 0; i < coinsCurrentlyInScene.Length; i++)
+        {
+            coinSaveDataArray[i] = coinsCurrentlyInScene[i].GetSaveData();
+        }
+
+        return coinSaveDataArray;
     }
 
     private void LoadFromAlienSaveDataArray(AlienSaveData[] alienSaveDataArray)
@@ -94,4 +154,66 @@ public class SaveSystem : MonoBehaviour
             newAlien.LoadFromSaveData(alienSaveDataArray[i], player);
         }
     }
+
+    private void LoadFromAsteroidSaveDataArray(AsteroidSaveData[] asteroidSaveDataArray)
+    {
+        // Destroy ALL asteroids at the time of Load
+        Asteroid[] asteroidsCurrentlyInScene = FindObjectsByType<Asteroid>(FindObjectsInactive.Include);
+        for (int i = 0; i < asteroidsCurrentlyInScene.Length; i++)
+        {
+            Destroy(asteroidsCurrentlyInScene[i].gameObject);
+        }
+
+        // Load the Asteroids from the save
+        for (int i = 0; i < asteroidSaveDataArray.Length; i++)
+        {
+            // instantiate a new Asteroid
+            Asteroid newAsteroid = Instantiate(asteroidPrefab);
+
+            // let that Asteroid load its data
+            newAsteroid.LoadFromSaveData(asteroidSaveDataArray[i], player);
+        }
+    }
+
+    private void LoadFromCometSaveDataArray(CometSaveData[] cometSaveDataArray)
+    {
+        // Destroy ALL comets at the time of Load
+        Comet[] cometsCurrentlyInScene = FindObjectsByType<Comet>(FindObjectsInactive.Include);
+        for (int i = 0; i < cometsCurrentlyInScene.Length; i++)
+        {
+            Destroy(cometsCurrentlyInScene[i].gameObject);
+        }
+
+        // Load the Comets from the save
+        for (int i = 0; i < cometSaveDataArray.Length; i++)
+        {
+            // instantiate a new Comet
+            Comet newComet = Instantiate(cometPrefab);
+
+            // let that Comet load its data
+            newComet.LoadFromSaveData(cometSaveDataArray[i]);
+        }
+    }
+
+    private void LoadFromCoinSaveDataArray(CoinSaveData[] coinSaveDataArray)
+    {
+        // Destroy ALL coins at the time of Load
+        Coin[] coinsCurrentlyInScene = FindObjectsByType<Coin>(FindObjectsInactive.Include);
+        for (int i = 0; i < coinsCurrentlyInScene.Length; i++)
+        {
+            Destroy(coinsCurrentlyInScene[i].gameObject);
+        }
+
+        // Load the Coins from the save
+        for (int i = 0; i < coinSaveDataArray.Length; i++)
+        {
+            // instantiate a new Coin
+            Coin newCoin = Instantiate(coinPrefab);
+
+            // let that Coin load its data
+            newCoin.LoadFromSaveData(coinSaveDataArray[i]);
+        }
+    }
+
+
 }

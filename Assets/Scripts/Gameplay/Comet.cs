@@ -54,4 +54,29 @@ public class Comet : MonoBehaviour
         transform.position = new Vector3(horizontalRadius * Mathf.Cos(currentAngle), 0, verticalRadius * Mathf.Sin(currentAngle));
         transform.forward = Vector3.Cross(transform.position, Vector3.up * directionMultiplier);
     }
+
+    public CometSaveData GetSaveData()
+    {
+        CometSaveData cometSaveData = new CometSaveData
+        {
+            currentAngle = currentAngle,
+            horizontalRadius = horizontalRadius,
+            verticalRadius = verticalRadius,
+            directionMultiplier = directionMultiplier,
+            perlinNoiseXCoord_1 = perlinNoiseXCoord_1,
+            perlinNoiseXCoord_2 = perlinNoiseXCoord_2
+        };
+
+        return cometSaveData;
+    }
+
+    public void LoadFromSaveData(CometSaveData saveData)
+    {
+        currentAngle = saveData.currentAngle;
+        horizontalRadius = saveData.horizontalRadius;
+        verticalRadius = saveData.verticalRadius;
+        directionMultiplier = saveData.directionMultiplier;
+        perlinNoiseXCoord_1 = saveData.perlinNoiseXCoord_1;
+        perlinNoiseXCoord_2 = saveData.perlinNoiseXCoord_2;
+    }
 }
