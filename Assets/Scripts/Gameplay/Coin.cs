@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Coin : MonoBehaviour, IShootable
+public class Coin : MonoBehaviour, IShootable, ISaveable
 {
     [SerializeField] private float speed;
     [SerializeField] private int ammoValue;
@@ -59,7 +59,7 @@ public class Coin : MonoBehaviour, IShootable
         }
     }
 
-    public CoinSaveData GetSaveData()
+    public object GetSaveData()
     {
         Vector3Data coinPosition = new Vector3Data
         {
@@ -85,12 +85,24 @@ public class Coin : MonoBehaviour, IShootable
         return coinSaveData;
     }
 
-    public void LoadFromSaveData(CoinSaveData saveData)
+    public void LoadFromSaveData(object saveData, Player player)
     {
-        Vector3 coinPosition = new Vector3(saveData.position.x, saveData.position.y, saveData.position.z);
-        Vector3 coinTargetPoint = new Vector3(saveData.targetPoint.x, saveData.targetPoint.y, saveData.targetPoint.z);
+        CoinSaveData coinSaveData = (CoinSaveData)saveData;
+
+        Vector3 coinPosition = new Vector3(coinSaveData.position.x, coinSaveData.position.y, coinSaveData.position.z);
+        Vector3 coinTargetPoint = new Vector3(coinSaveData.targetPoint.x, coinSaveData.targetPoint.y, coinSaveData.targetPoint.z);
 
         transform.position = coinPosition;
         targetPoint = coinTargetPoint;
+    }
+
+    SaveSystem.SaveType ISaveable.GetSaveType()
+    {
+        return SaveSystem.SaveType.Coin;
+    }
+
+    GameObject ISaveable.GetGameObject()
+    {
+        return gameObject;
     }
 }

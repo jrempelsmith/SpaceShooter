@@ -165,10 +165,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SaveSystem
   player: {fileID: 1365222622}
   gameTimer: {fileID: 819552807}
-  alienPrefab: {fileID: 5895234470279492846, guid: fab613758e80a944681fb6c6090dcc65, type: 3}
-  asteroidPrefab: {fileID: 4484560760917773572, guid: 4292e49e77798e747afc1e27f64269d9, type: 3}
-  cometPrefab: {fileID: 8327815616458291844, guid: 3bd4b8f1128bd3743b00977d22192855, type: 3}
-  coinPrefab: {fileID: 2581437460648202079, guid: 614a16ed7c46e094a94248596989962c, type: 3}
+  alienPrefab: {fileID: 587243658946191678, guid: fab613758e80a944681fb6c6090dcc65, type: 3}
+  asteroidPrefab: {fileID: 587243658946191678, guid: 4292e49e77798e747afc1e27f64269d9, type: 3}
+  cometPrefab: {fileID: 6788105315342654162, guid: 3bd4b8f1128bd3743b00977d22192855, type: 3}
+  coinPrefab: {fileID: 674157333802723792, guid: 614a16ed7c46e094a94248596989962c, type: 3}
   saveFileName: SavedGame
   saveGameFileExtension: ss
 --- !u!1 &94933516

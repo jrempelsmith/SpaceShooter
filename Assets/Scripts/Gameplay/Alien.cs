@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEditor.Overlays;
 using UnityEngine;
 
-public class Alien : Enemy
+public class Alien : Enemy, ISaveable
 {
+    [System.Serializable]
     private struct AsteroidConnection
     {
         public Asteroid asteroid;
@@ -138,7 +139,7 @@ public class Alien : Enemy
         shieldIcon.SetActive(false);
     }
 
-    public AlienSaveData GetSaveData()
+    public object GetSaveData()
     {
         Vector3Data alienPosition = new Vector3Data
         {
@@ -164,16 +165,28 @@ public class Alien : Enemy
         return alienSaveData;
     }
 
-    public void LoadFromSaveData(AlienSaveData saveData, Player player)
+    public void LoadFromSaveData(object saveData, Player player)
     {
-        Vector3 alienPosition = new Vector3(saveData.position.x, saveData.position.y, saveData.position.z);
-        Vector3 alienTargetPoint = new Vector3(saveData.targetPoint.x, saveData.targetPoint.y, saveData.targetPoint.z);
+        AlienSaveData alienSaveData = (AlienSaveData)saveData;
+
+        Vector3 alienPosition = new Vector3(alienSaveData.position.x, alienSaveData.position.y, alienSaveData.position.z);
+        Vector3 alienTargetPoint = new Vector3(alienSaveData.targetPoint.x, alienSaveData.targetPoint.y, alienSaveData.targetPoint.z);
 
         transform.position = alienPosition;
         targetPoint = alienTargetPoint;
-        Health = saveData.health;
+        Health = alienSaveData.health;
         this.player = player;
 
         transform.rotation = Quaternion.LookRotation(targetPoint - transform.position);
+    }
+
+    SaveSystem.SaveType ISaveable.GetSaveType()
+    {
+        return SaveSystem.SaveType.Alien;
+    }
+
+    GameObject ISaveable.GetGameObject()
+    {
+        return gameObject;
     }
 }

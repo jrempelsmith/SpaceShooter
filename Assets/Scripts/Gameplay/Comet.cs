@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Comet : MonoBehaviour
+public class Comet : MonoBehaviour, ISaveable
 {
     private float orbitalSpeed;
 
@@ -55,7 +55,7 @@ public class Comet : MonoBehaviour
         transform.forward = Vector3.Cross(transform.position, Vector3.up * directionMultiplier);
     }
 
-    public CometSaveData GetSaveData()
+    public object GetSaveData()
     {
         CometSaveData cometSaveData = new CometSaveData
         {
@@ -70,13 +70,25 @@ public class Comet : MonoBehaviour
         return cometSaveData;
     }
 
-    public void LoadFromSaveData(CometSaveData saveData)
+    public void LoadFromSaveData(object saveData, Player player)
     {
-        currentAngle = saveData.currentAngle;
-        horizontalRadius = saveData.horizontalRadius;
-        verticalRadius = saveData.verticalRadius;
-        directionMultiplier = saveData.directionMultiplier;
-        perlinNoiseXCoord_1 = saveData.perlinNoiseXCoord_1;
-        perlinNoiseXCoord_2 = saveData.perlinNoiseXCoord_2;
+        CometSaveData cometSaveData = (CometSaveData)saveData;
+
+        currentAngle = cometSaveData.currentAngle;
+        horizontalRadius = cometSaveData.horizontalRadius;
+        verticalRadius = cometSaveData.verticalRadius;
+        directionMultiplier = cometSaveData.directionMultiplier;
+        perlinNoiseXCoord_1 = cometSaveData.perlinNoiseXCoord_1;
+        perlinNoiseXCoord_2 = cometSaveData.perlinNoiseXCoord_2;
+    }
+
+    SaveSystem.SaveType ISaveable.GetSaveType()
+    {
+        return SaveSystem.SaveType.Comet;
+    }
+
+    GameObject ISaveable.GetGameObject()
+    {
+        return gameObject;
     }
 }

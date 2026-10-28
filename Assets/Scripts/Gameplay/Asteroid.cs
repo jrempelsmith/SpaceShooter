@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Asteroid : Enemy
+public class Asteroid : Enemy, ISaveable
 {
     public override void OnShot()
     {
@@ -25,7 +25,7 @@ public class Asteroid : Enemy
         targetPoint = transform.position + (centralTargetPoint - transform.position) * 10f; // large multiplier to ensure it moves all the way through the level
     }
 
-    public AsteroidSaveData GetSaveData()
+    public object GetSaveData()
     {
         Vector3Data asteroidPosition = new Vector3Data
         {
@@ -51,16 +51,28 @@ public class Asteroid : Enemy
         return asteroidSaveData;
     }
 
-    public void LoadFromSaveData(AsteroidSaveData saveData, Player player)
+    public void LoadFromSaveData(object saveData, Player player)
     {
-        Vector3 asteroidPosition = new Vector3(saveData.position.x, saveData.position.y, saveData.position.z);
-        Vector3 asteroidTargetPoint = new Vector3(saveData.targetPoint.x, saveData.targetPoint.y, saveData.targetPoint.z);
+        AsteroidSaveData asteroidSaveData = (AsteroidSaveData)saveData;
+
+        Vector3 asteroidPosition = new Vector3(asteroidSaveData.position.x, asteroidSaveData.position.y, asteroidSaveData.position.z);
+        Vector3 asteroidTargetPoint = new Vector3(asteroidSaveData.targetPoint.x, asteroidSaveData.targetPoint.y, asteroidSaveData.targetPoint.z);
 
         transform.position = asteroidPosition;
         targetPoint = asteroidTargetPoint;
-        Health = saveData.health;
+        Health = asteroidSaveData.health;
         this.player = player;
 
         transform.rotation = Quaternion.LookRotation(targetPoint - transform.position);
+    }
+
+    SaveSystem.SaveType ISaveable.GetSaveType()
+    {
+        return SaveSystem.SaveType.Asteroid;
+    }
+
+    GameObject ISaveable.GetGameObject()
+    {
+        return gameObject;
     }
 }
