@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Overlays;
 using UnityEngine;
 
 public class Alien : Enemy, ISaveable
 {
+    private int saveID;
+
     [System.Serializable]
     private struct AsteroidConnection
     {
@@ -155,8 +156,18 @@ public class Alien : Enemy, ISaveable
             z = targetPoint.z
         };
 
+        List<int> connectedAsteroidIDs = new List<int>();
+        foreach (AsteroidConnection connection in connectedAsteroids)
+        {
+            connectedAsteroidIDs.Add(connection.asteroid.GetSaveID());
+        }
+
         AlienSaveData alienSaveData = new AlienSaveData
         {
+            saveID = saveID,
+            connectedCometID = connectedComet != null ? connectedComet.GetSaveID() : -1,
+            connectedAsteroidIDs = connectedAsteroidIDs,
+
             position = alienPosition,
             targetPoint = alienTargetPoint,
             health = Health
@@ -168,6 +179,8 @@ public class Alien : Enemy, ISaveable
     public void LoadFromSaveData(object saveData, Player player)
     {
         AlienSaveData alienSaveData = (AlienSaveData)saveData;
+
+        saveID = alienSaveData.saveID;
 
         Vector3 alienPosition = new Vector3(alienSaveData.position.x, alienSaveData.position.y, alienSaveData.position.z);
         Vector3 alienTargetPoint = new Vector3(alienSaveData.targetPoint.x, alienSaveData.targetPoint.y, alienSaveData.targetPoint.z);
@@ -188,5 +201,50 @@ public class Alien : Enemy, ISaveable
     GameObject ISaveable.GetGameObject()
     {
         return gameObject;
+    }
+
+    int ISaveable.GetSaveID()
+    {
+        return saveID;
+    }
+
+    void ISaveable.SetSaveID(int id)
+    {
+        saveID = id;
+    }
+
+    void ISaveable.RestoreReferencesAfterLoading(object saveData, ISaveable[] loadedISaveables)
+    {
+        AlienSaveData alienSaveData = (AlienSaveData)saveData;
+
+        // Find the ISaveable with ID matching alienSaveData.connectedCometID
+        for (int i = 0; i < loadedISaveables.Length; i++)
+        {
+            if (loadedISaveables[i].GetSaveID() == alienSaveData.connectedCometID)
+            {
+                connectedComet = (Comet)loadedISaveables[i];
+                cometConnectionLineRenderer.enabled = true;
+            }
+
+            for (int j = 0; j < alienSaveData.connectedAsteroidIDs.Count; j++)
+            {
+                if (loadedISaveables[i].GetSaveID() == alienSaveData.connectedAsteroidIDs[j])
+                {
+                    GameObject newChild = new GameObject();
+                    newChild.transform.parent = transform;
+                    newChild.transform.localPosition = Vector3.zero;
+                    LineRenderer newLineRenderer = newChild.AddComponent<LineRenderer>();
+                    newLineRenderer.widthMultiplier = connectionLineWidth;
+                    newLineRenderer.material = connectionLineMaterial;
+
+                    AsteroidConnection asteroidConnection = new AsteroidConnection
+                    {
+                        asteroid = (Asteroid)loadedISaveables[i],
+                        lineRenderer = newLineRenderer
+                    };
+                    connectedAsteroids.Add(asteroidConnection);
+                }
+            }
+        }
     }
 }

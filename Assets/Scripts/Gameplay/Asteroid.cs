@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Asteroid : Enemy, ISaveable
 {
+    private int saveID;
+
     public override void OnShot()
     {
         health -= 1;
@@ -43,6 +45,8 @@ public class Asteroid : Enemy, ISaveable
 
         AsteroidSaveData asteroidSaveData = new AsteroidSaveData
         {
+            saveID = saveID,
+
             position = asteroidPosition,
             targetPoint = asteroidTargetPoint,
             health = Health
@@ -54,6 +58,8 @@ public class Asteroid : Enemy, ISaveable
     public void LoadFromSaveData(object saveData, Player player)
     {
         AsteroidSaveData asteroidSaveData = (AsteroidSaveData)saveData;
+
+        saveID = asteroidSaveData.saveID;
 
         Vector3 asteroidPosition = new Vector3(asteroidSaveData.position.x, asteroidSaveData.position.y, asteroidSaveData.position.z);
         Vector3 asteroidTargetPoint = new Vector3(asteroidSaveData.targetPoint.x, asteroidSaveData.targetPoint.y, asteroidSaveData.targetPoint.z);
@@ -74,5 +80,20 @@ public class Asteroid : Enemy, ISaveable
     GameObject ISaveable.GetGameObject()
     {
         return gameObject;
+    }
+
+    public int GetSaveID()
+    {
+        return saveID;
+    }
+
+    void ISaveable.SetSaveID(int id)
+    {
+        saveID = id;
+    }
+
+    void ISaveable.RestoreReferencesAfterLoading(object saveData, ISaveable[] loadedISaveables)
+    {
+        
     }
 }

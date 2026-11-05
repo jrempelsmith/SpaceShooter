@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour, IShootable, ISaveable
 {
+    private int saveID;
+
     [SerializeField] private float speed;
     [SerializeField] private int ammoValue;
 
@@ -78,6 +80,8 @@ public class Coin : MonoBehaviour, IShootable, ISaveable
 
         CoinSaveData coinSaveData = new CoinSaveData
         {
+            saveID = saveID,
+
             position = coinPosition,
             targetPoint = coinTargetPoint
         };
@@ -88,6 +92,8 @@ public class Coin : MonoBehaviour, IShootable, ISaveable
     public void LoadFromSaveData(object saveData, Player player)
     {
         CoinSaveData coinSaveData = (CoinSaveData)saveData;
+
+        saveID = coinSaveData.saveID;
 
         Vector3 coinPosition = new Vector3(coinSaveData.position.x, coinSaveData.position.y, coinSaveData.position.z);
         Vector3 coinTargetPoint = new Vector3(coinSaveData.targetPoint.x, coinSaveData.targetPoint.y, coinSaveData.targetPoint.z);
@@ -104,5 +110,20 @@ public class Coin : MonoBehaviour, IShootable, ISaveable
     GameObject ISaveable.GetGameObject()
     {
         return gameObject;
+    }
+
+    int ISaveable.GetSaveID()
+    {
+        return saveID;
+    }
+
+    void ISaveable.SetSaveID(int id)
+    {
+        saveID = id;
+    }
+
+    void ISaveable.RestoreReferencesAfterLoading(object saveData, ISaveable[] loadedISaveables)
+    {
+        
     }
 }

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Comet : MonoBehaviour, ISaveable
 {
+    private int saveID;
+
     private float orbitalSpeed;
 
     private float horizontalRadius;
@@ -59,9 +61,12 @@ public class Comet : MonoBehaviour, ISaveable
     {
         CometSaveData cometSaveData = new CometSaveData
         {
+            saveID = saveID,
+
             currentAngle = currentAngle,
             horizontalRadius = horizontalRadius,
             verticalRadius = verticalRadius,
+            orbitalSpeed = orbitalSpeed,
             directionMultiplier = directionMultiplier,
             perlinNoiseXCoord_1 = perlinNoiseXCoord_1,
             perlinNoiseXCoord_2 = perlinNoiseXCoord_2
@@ -74,9 +79,12 @@ public class Comet : MonoBehaviour, ISaveable
     {
         CometSaveData cometSaveData = (CometSaveData)saveData;
 
+        saveID = cometSaveData.saveID;
+
         currentAngle = cometSaveData.currentAngle;
         horizontalRadius = cometSaveData.horizontalRadius;
         verticalRadius = cometSaveData.verticalRadius;
+        orbitalSpeed = cometSaveData.orbitalSpeed;
         directionMultiplier = cometSaveData.directionMultiplier;
         perlinNoiseXCoord_1 = cometSaveData.perlinNoiseXCoord_1;
         perlinNoiseXCoord_2 = cometSaveData.perlinNoiseXCoord_2;
@@ -88,7 +96,22 @@ public class Comet : MonoBehaviour, ISaveable
     }
 
     GameObject ISaveable.GetGameObject()
-    {
+    {   
         return gameObject;
+    }
+
+    public int GetSaveID()
+    {
+        return saveID;
+    }
+
+    void ISaveable.SetSaveID(int id)
+    {
+        saveID = id;
+    }
+
+    void ISaveable.RestoreReferencesAfterLoading(object saveData, ISaveable[] loadedISaveables)
+    {
+        
     }
 }

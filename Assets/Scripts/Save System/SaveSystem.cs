@@ -62,11 +62,6 @@ public class SaveSystem : MonoBehaviour
             gameTimerSaveData = gameTimer.GetSaveData(),
 
             objectSaveDataArray = GetObjectSaveDataArray()
-
-            //alienSaveDataArray = GetAlienSaveDataArray(),
-            //asteroidSaveDataArray = GetAsteroidSaveDataArray(),
-            //cometSaveDataArray = GetCometSaveDataArray(),
-            //coinSaveDataArray = GetCoinSaveDataArray()
         };
 
         // 2. Serialize container as string
@@ -96,11 +91,6 @@ public class SaveSystem : MonoBehaviour
         gameTimer.LoadFromSaveData(gameTimerSaveData);
 
         LoadFromObjectSaveDataArray(saveGameContainer.objectSaveDataArray);
-
-        //LoadFromAlienSaveDataArray(saveGameContainer.alienSaveDataArray);
-        //LoadFromAsteroidSaveDataArray(saveGameContainer.asteroidSaveDataArray);
-        //LoadFromCometSaveDataArray(saveGameContainer.cometSaveDataArray);
-        //LoadFromCoinSaveDataArray(saveGameContainer.coinSaveDataArray);
     }
 
     private SaveEntity[] GetObjectSaveDataArray()
@@ -116,6 +106,11 @@ public class SaveSystem : MonoBehaviour
             {
                 iSaveablesCurrentlyInScene.Add(iSaveable);
             }
+        }
+
+        for (int i = 0; i < iSaveablesCurrentlyInScene.Count; i++)
+        {
+            iSaveablesCurrentlyInScene[i].SetSaveID(i);
         }
 
         // Create an array of the same length for object Save Data
@@ -156,6 +151,8 @@ public class SaveSystem : MonoBehaviour
             Destroy(iSaveablesCurrentlyInScene[i].GetGameObject());
         }
 
+        ISaveable[] loadedISaveables = new ISaveable[objectSaveDataArray.Length];
+        object[] loadedObjectSaveData = new object[objectSaveDataArray.Length];
 
         // Load the ISaveables from the save
         for (int i = 0; i < objectSaveDataArray.Length; i++)
@@ -170,14 +167,22 @@ public class SaveSystem : MonoBehaviour
             var objectSaveData = jsonObject.ToObject(objectType);
 
             GameObject loadedGameObject = Instantiate(saveTypePrefabDictionary[objectSaveDataArray[i].type]);
-
+            
             if (!loadedGameObject.TryGetComponent(out ISaveable loadedISaveable))
             {
                 Debug.LogError("Did not find ISaveable, something went wrong");
             }
 
             loadedISaveable.LoadFromSaveData(objectSaveData, player);
+            loadedISaveables[i] = loadedISaveable;
+            loadedObjectSaveData[i] = objectSaveData;
         }
+
+        for (int i = 0; i < loadedISaveables.Length; i++)
+        {
+            loadedISaveables[i].RestoreReferencesAfterLoading(loadedObjectSaveData[i], loadedISaveables);
+        }
+
     }
 
 
