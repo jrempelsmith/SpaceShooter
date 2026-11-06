@@ -4,6 +4,10 @@ using UnityEngine.UI;
 
 public class WinLoseController : MonoBehaviour
 {
+    [SerializeField] private LoadGameInstructionSO loadGameInstructionSO;
+    [SerializeField] private LevelNumber levelNumber;
+    [SerializeField] private SaveSystem saveSystem;
+
     [SerializeField] private Player player;
     [SerializeField] private GameTimer gameTimer;
 
@@ -11,7 +15,6 @@ public class WinLoseController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI loseText;
     
     [SerializeField] private Button restartButton;
-    [SerializeField] private Button mainMenuButton;
 
     private void Awake()
     {
@@ -21,7 +24,6 @@ public class WinLoseController : MonoBehaviour
         winText.gameObject.SetActive(false);
         loseText.gameObject.SetActive(false);
         restartButton.gameObject.SetActive(false);
-        mainMenuButton.gameObject.SetActive(false);
     }
 
     private void GameTimer_OnTimerFinished(object sender, System.EventArgs e)
@@ -29,7 +31,9 @@ public class WinLoseController : MonoBehaviour
         Time.timeScale = 0f;
 
         winText.gameObject.SetActive(true);
-        mainMenuButton.gameObject.SetActive(true);
+
+        // Mark levelNumber.levelNumber as completed
+        saveSystem.MarkLevelAsComplete(levelNumber.levelNumber);
     }
 
     private void Player_OnZeroHealth(object sender, System.EventArgs e)
@@ -38,18 +42,18 @@ public class WinLoseController : MonoBehaviour
 
         loseText.gameObject.SetActive(true);
         restartButton.gameObject.SetActive(true);
-        mainMenuButton.gameObject.SetActive(true);
     }
 
     public void RestartLevel(string sceneName)
     {
+        loadGameInstructionSO.shouldLoadFromSave = false;
+
         Time.timeScale = 1f;
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
 
         winText.gameObject.SetActive(false);
         loseText.gameObject.SetActive(false);
         restartButton.gameObject.SetActive(false);
-        mainMenuButton.gameObject.SetActive(false);
     }
 
     public void LoadMainMenu()

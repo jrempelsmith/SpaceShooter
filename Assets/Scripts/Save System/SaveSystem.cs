@@ -24,6 +24,13 @@ public class SaveSystem : MonoBehaviour
 
     private Dictionary<SaveType, GameObject> saveTypePrefabDictionary;
 
+
+    [Header("Save System")]
+    [SerializeField] private SaveFilenameSO saveFilenameSO;
+    [SerializeField] private LevelNumber levelNumber;
+    [SerializeField] private LoadGameInstructionSO loadGameInstructionSO;
+
+
     [Header("Object references")]
     [SerializeField] private Player player;
     [SerializeField] private GameTimer gameTimer;
@@ -32,16 +39,16 @@ public class SaveSystem : MonoBehaviour
     [SerializeField] private GameObject cometPrefab;
     [SerializeField] private GameObject coinPrefab;
 
-
-    [Header("File name")]
-    [SerializeField] private string saveFileName;
-    [SerializeField] private string saveGameFileExtension;
-
     private string saveGameFilePath;
+    private string saveMetadataFilePath;
+    private string levelProgressFilePath;
+
 
     private void Awake()
     {
-        saveGameFilePath = Path.Combine(Application.persistentDataPath, saveFileName + "." + saveGameFileExtension);
+        saveGameFilePath = Path.Combine(Application.persistentDataPath, saveFilenameSO.saveFileName + "." + saveFilenameSO.saveGameFileExtension);
+        saveMetadataFilePath = Path.Combine(Application.persistentDataPath, saveFilenameSO.saveMetadataFileName + "." + saveFilenameSO.saveGameFileExtension);
+        levelProgressFilePath = Path.Combine(Application.persistentDataPath, saveFilenameSO.levelProgressFileName + "." + saveFilenameSO.saveGameFileExtension);
 
         saveTypePrefabDictionary = new()
         {
@@ -52,8 +59,20 @@ public class SaveSystem : MonoBehaviour
         };
     }
 
+    private void Start()
+    {
+        // Read from Scriptable Object (LoadGameInstructions)
+        // Check whether we should load the game
+        if (loadGameInstructionSO.shouldLoadFromSave)
+        {
+            TryLoadGame();
+        }
+    }
+
     public void SaveGame()
     {
+        // --------------- Game State ------------------ //
+
         GetObjectSaveDataArray();
 
         SaveGameContainer saveGameContainer = new SaveGameContainer
@@ -69,8 +88,18 @@ public class SaveSystem : MonoBehaviour
 
         // 3. Write string to text file
         File.WriteAllText(saveGameFilePath, saveGameContainerString);
+
+
+        // --------------- Save Metadata ------------------ //
+        SaveMetadataContainer saveMetadataContainer = new SaveMetadataContainer
+        {
+            levelNumber = levelNumber.levelNumber
+        };
+        string saveMetadataContainerString = JsonConvert.SerializeObject(saveMetadataContainer, Formatting.Indented);
+        File.WriteAllText(saveMetadataFilePath, saveMetadataContainerString);
+
     }
-    
+
     public void TryLoadGame()
     {
         string fileContents;
@@ -185,7 +214,13 @@ public class SaveSystem : MonoBehaviour
 
     }
 
+    public void MarkLevelAsComplete(int levelNumber)
+    {
+        
+        //string levelProgressContainerString = JsonConvert.SerializeObject(levelProgressContainer, Formatting.Indented);
+        //File.WriteAllText(levelProgressFilePath, levelProgressContainerString);
 
+    }
 
 
 
